@@ -6,8 +6,10 @@ HOSTIP="10.0.0.10"
 IP1="10.0.0.11"
 IP2="10.0.0.12"
 
-echo "Installing the bridge-utils"
-sudo apt-get install bridge-utils
+echo "Installing the dependencies"
+sudo apt-get update
+sudo apt-get install -y bridge-utils
+sudo apt-get install -y arping
 
 echo "Creating the namespaces"
 sudo ip netns add $CON1
@@ -22,15 +24,18 @@ sudo ip link set vethcon11 netns $CON1
 sudo ip link set vethcon21 netns $CON2
 
 echo "Configuring the interfaces in the containers with IP address, and enabling them"
-sudo ip netns exec $CON1 ifconfig vethcon11 $IP1 up
-sudo ip netns exec $CON2 ifconfig vethcon21 $IP2 up
+sudo ip netns exec $CON1 ifconfig vethcon11 $IP1/24 up
+sudo ip netns exec $CON2 ifconfig vethcon21 $IP2/24 up
 
 echo "Creating the bridge"
 sudo brctl addbr br0
 
-echo "Adding the interfaces to the bridge"
+echo "Adding the containers interfaces to the bridge"
 sudo brctl addif br0 vethcon10
 sudo brctl addif br0 vethcon20
+
+echo "Adding the host interface to the bridge"
+sudo brctl addif br0 enp0s8
 
 echo "Removing IP address from enp0s8"
 sudo ifconfig enp0s8 0.0.0.0
@@ -42,6 +47,6 @@ echo "Enabling the interfaces connected to the bridge"
 sudo ifconfig vethcon10 up
 sudo ifconfig vethcon20 up
 
-# Set the loopback intreface in the namespace
+echo "Setting the loopback interfaces in the containers"
 sudo ip netns exec $CON1 ip link set lo up
 sudo ip netns exec $CON2 ip link set lo up
