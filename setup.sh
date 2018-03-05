@@ -2,9 +2,16 @@
 
 CON1="con1"
 CON2="con2"
-HOSTIP="10.0.0.10"
-IP1="10.0.0.11"
-IP2="10.0.0.12"
+
+if [ $(hostname) == "containers-from-scratch-1" ]; then 
+    NODEIP="10.0.0.10"
+    IP1="10.0.0.11"
+    IP2="10.0.0.12"
+else
+    NODEIP="10.0.0.20"
+    IP1="10.0.0.21"
+    IP2="10.0.0.22"
+fi
 
 echo "Installing the dependencies"
 sudo apt-get update
@@ -34,14 +41,14 @@ echo "Adding the containers interfaces to the bridge"
 sudo brctl addif br0 vethcon10
 sudo brctl addif br0 vethcon20
 
-echo "Adding the host interface to the bridge"
+echo "Adding the nodes interface to the bridge"
 sudo brctl addif br0 enp0s8
 
 echo "Removing IP address from enp0s8"
 sudo ifconfig enp0s8 0.0.0.0
 
-echo "Enabling the bridge, and assigning it the hosts original IP address"
-sudo ifconfig br0 $HOSTIP up
+echo "Enabling the bridge, and assigning it the nodes original IP address"
+sudo ifconfig br0 $NODEIP up
 
 echo "Enabling the interfaces connected to the bridge"
 sudo ifconfig vethcon10 up
