@@ -1,51 +1,31 @@
 # Containers From Scratch
 
-A simple example of creating linux network namespaces, connected via a bridge
+An example of creating linux network namespaces, connected via a bridges.
 
-Create the VM:
+Creates the 2 VMs (containers-from-scratch-1 and containers-from-scratch-2:
 
 ```
 vagrant up
 ```
 
-SSH to the VM:
+SSH to each node (VM) in turn, and run the setup script to create the network namespaces connected via bridges: 
 
 ```
-vagrant ssh
+vagrant ssh containers-from-scratch-[12]
 cd /vagrant
+./setup.sh
 ```
 
-To create 2 namespaces connected with a bridge:
-
-```
-./run.sh
-```
-
-To see the status of the interfaces/route tables within the VM and the namespaces:
+To see the status of the interfaces/route tables within each of the nodes and the namespaces, run:
 
 ```
 ./status.sh
 ```
 
-From the VM, you should be able to ping the inteface in each of the namespaces:
+To test the connectivity between the containers within and node, and accross nodes, run the following:
 
 ```
-ping 10.0.0.11
-ping 10.0.0.12
-```
-
-Each of the namespaces should be able to ping each other and the VM:
-
-```
-sudo ip netns exec con1 bash
-ping 10.0.0.10
-ping 10.0.0.12
-```
-
-```
-sudo ip netns exec con2 bash
-ping 10.0.0.10
-ping 10.0.0.11
+./test.sh
 ```
 
 ## References
