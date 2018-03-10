@@ -10,17 +10,17 @@ ip netns list
 echo
 
 echo "========================================================================"
-echo "node - ifconfig"
+echo "node - ip addr"
 echo "========================================================================"
-sudo ifconfig
+sudo ip addr
 echo "========================================================================"
-echo "$CON1 namespace - ifconfig"
+echo "$CON1 namespace - ip addr"
 echo "========================================================================"
-sudo ip netns exec $CON1 ifconfig
+sudo ip netns exec $CON1 ip addr
 echo "========================================================================"
-echo "$CON2 namespace - ifconfig"
+echo "$CON2 namespace - ip addr"
 echo "========================================================================"
-sudo ip netns exec $CON2 ifconfig
+sudo ip netns exec $CON2 ip addr
 
 echo "========================================================================"
 echo "node - route table"
@@ -36,5 +36,3 @@ echo "========================================================================"
 echo "$CON2 namespace - route table"
 echo "========================================================================"
 sudo ip netns exec $CON2 route
-echo
-

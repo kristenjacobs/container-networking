@@ -22,7 +22,7 @@ To see the status of the interfaces/route tables within each of the nodes and th
 ./status.sh
 ```
 
-To test the connectivity between the containers within and node, and accross nodes, run the following:
+To test the connectivity between the containers within and node, and across nodes, run the following:
 
 ```
 ./test.sh
