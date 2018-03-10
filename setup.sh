@@ -13,6 +13,8 @@ else
     IP2="10.0.0.22"
 fi
 
+GATEWAY=10.0.2.2
+
 echo "Installing the dependencies"
 sudo apt-get update
 sudo apt-get install -y bridge-utils
@@ -52,7 +54,7 @@ echo "Removing IP address from enp0s8"
 sudo ip addr del $NODEIP dev enp0s8
 
 echo "Assigning the nodes IP address to the bridge"
-sudo ip addr add $NODEIP dev br0
+sudo ip addr add $NODEIP/32 dev br0
 
 echo "Enabling the bridge"
 sudo ip link set dev br0 up
@@ -64,3 +66,6 @@ sudo ip link set dev vethcon20 up
 echo "Setting the loopback interfaces in the containers"
 sudo ip netns exec $CON1 ip link set lo up
 sudo ip netns exec $CON2 ip link set lo up
+
+echo "Setting the routes on the node"
+sudo ip route add 10.0.0.0/24 dev br0 src $NODEIP
