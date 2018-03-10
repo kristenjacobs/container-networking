@@ -2,7 +2,7 @@
 
 An example of creating linux network namespaces, connected via a bridge.
 
-Creates the 2 VMs (containers-from-scratch-1 and containers-from-scratch-2:
+Creates the 2 VMs (container-networking-1 and container-networking-2:
 
 ```
 vagrant up
@@ -11,7 +11,7 @@ vagrant up
 SSH to each node (VM) in turn, and run the setup script to create the network namespaces connected via bridge: 
 
 ```
-vagrant ssh containers-from-scratch-[12]
+vagrant ssh container-networking-[12]
 cd /vagrant
 ./setup.sh
 ```

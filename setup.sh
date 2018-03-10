@@ -1,17 +1,6 @@
 #!/bin/bash -e 
 
-CON1="con1"
-CON2="con2"
-
-if [ $(hostname) == "containers-from-scratch-1" ]; then 
-    NODEIP="10.0.0.10"
-    IP1="10.0.0.11"
-    IP2="10.0.0.12"
-else
-    NODEIP="10.0.0.20"
-    IP1="10.0.0.21"
-    IP2="10.0.0.22"
-fi
+. env.sh
 
 echo "Creating the namespaces"
 sudo ip netns add $CON1
@@ -44,10 +33,10 @@ echo "Adding the nodes interface to the bridge"
 sudo ip link set dev enp0s8 master br0
 
 echo "Removing IP address from enp0s8"
-sudo ip addr del $NODEIP dev enp0s8
+sudo ip addr del $NODE_IP dev enp0s8
 
 echo "Assigning the nodes IP address to the bridge"
-sudo ip addr add $NODEIP/32 dev br0
+sudo ip addr add $NODE_IP/32 dev br0
 
 echo "Enabling the bridge"
 sudo ip link set dev br0 up
@@ -61,4 +50,4 @@ sudo ip netns exec $CON1 ip link set lo up
 sudo ip netns exec $CON2 ip link set lo up
 
 echo "Setting the routes on the node"
-sudo ip route add 10.0.0.0/24 dev br0 src $NODEIP
+sudo ip route add 10.0.0.0/24 dev br0 src $NODE_IP
