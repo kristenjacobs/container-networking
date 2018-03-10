@@ -1,4 +1,4 @@
-# Containers From Scratch
+# Container Networking
 
 An example of creating linux network namespaces, connected via a bridge.
 
