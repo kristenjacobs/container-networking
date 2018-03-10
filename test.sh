@@ -21,10 +21,10 @@ fi
 
 function check_error {
     if [ "$?" -ne 0 ]; then
-        echo "***** TEST FAILED *****"
-        exit 1
+        echo " - ***** FAILED *****"
+    else
+        echo " - PASSED"
     fi
-    echo " - PASSED"
 }
 
 echo -n "Checking connectivity from node $FROM_NODE_IP to node $FROM_NODE_IP"

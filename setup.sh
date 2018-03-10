@@ -30,9 +30,13 @@ echo "Adding the veth pairs to the namespaces"
 sudo ip link set vethcon11 netns $CON1
 sudo ip link set vethcon21 netns $CON2
 
-echo "Configuring the interfaces in the containers with IP address, and enabling them"
-sudo ip netns exec $CON1 ifconfig vethcon11 $IP1/24 up
-sudo ip netns exec $CON2 ifconfig vethcon21 $IP2/24 up
+echo "Configuring the interfaces in the containers with IP address"
+sudo ip netns exec $CON1 ip addr add $IP1/24 dev vethcon11 
+sudo ip netns exec $CON2 ip addr add $IP2/24 dev vethcon21 
+
+echo "Enabling the interfaces inside the containers"
+sudo ip netns exec $CON1 ip link set dev vethcon11 up
+sudo ip netns exec $CON2 ip link set dev vethcon21 up
 
 echo "Creating the bridge"
 sudo brctl addbr br0
@@ -45,14 +49,17 @@ echo "Adding the nodes interface to the bridge"
 sudo brctl addif br0 enp0s8
 
 echo "Removing IP address from enp0s8"
-sudo ifconfig enp0s8 0.0.0.0
+sudo ip addr del $NODEIP dev enp0s8
 
-echo "Enabling the bridge, and assigning it the nodes original IP address"
-sudo ifconfig br0 $NODEIP up
+echo "Assigning the nodes IP address to the bridge"
+sudo ip addr add $NODEIP dev br0
+
+echo "Enabling the bridge"
+sudo ip link set dev br0 up
 
 echo "Enabling the interfaces connected to the bridge"
-sudo ifconfig vethcon10 up
-sudo ifconfig vethcon20 up
+sudo ip link set dev vethcon10 up
+sudo ip link set dev vethcon20 up
 
 echo "Setting the loopback interfaces in the containers"
 sudo ip netns exec $CON1 ip link set lo up
