@@ -13,13 +13,6 @@ else
     IP2="10.0.0.22"
 fi
 
-GATEWAY=10.0.2.2
-
-echo "Installing the dependencies"
-sudo apt-get update
-sudo apt-get install -y bridge-utils
-sudo apt-get install -y arping
-
 echo "Creating the namespaces"
 sudo ip netns add $CON1
 sudo ip netns add $CON2
@@ -41,14 +34,14 @@ sudo ip netns exec $CON1 ip link set dev vethcon11 up
 sudo ip netns exec $CON2 ip link set dev vethcon21 up
 
 echo "Creating the bridge"
-sudo brctl addbr br0
+sudo ip link add name br0 type bridge
 
 echo "Adding the containers interfaces to the bridge"
-sudo brctl addif br0 vethcon10
-sudo brctl addif br0 vethcon20
+sudo ip link set dev vethcon10 master br0
+sudo ip link set dev vethcon20 master br0
 
 echo "Adding the nodes interface to the bridge"
-sudo brctl addif br0 enp0s8
+sudo ip link set dev enp0s8 master br0
 
 echo "Removing IP address from enp0s8"
 sudo ip addr del $NODEIP dev enp0s8

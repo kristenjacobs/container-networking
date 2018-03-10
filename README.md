@@ -1,6 +1,6 @@
 # Containers From Scratch
 
-An example of creating linux network namespaces, connected via a bridges.
+An example of creating linux network namespaces, connected via a bridge.
 
 Creates the 2 VMs (containers-from-scratch-1 and containers-from-scratch-2:
 
@@ -8,7 +8,7 @@ Creates the 2 VMs (containers-from-scratch-1 and containers-from-scratch-2:
 vagrant up
 ```
 
-SSH to each node (VM) in turn, and run the setup script to create the network namespaces connected via bridges: 
+SSH to each node (VM) in turn, and run the setup script to create the network namespaces connected via bridge: 
 
 ```
 vagrant ssh containers-from-scratch-[12]
