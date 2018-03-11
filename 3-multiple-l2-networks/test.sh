@@ -29,15 +29,21 @@ function check_connectivity_from_container {
 
 check_connectivity_from_node $NODE_IP $NODE_IP
 check_connectivity_from_node $NODE_IP $TO_NODE_IP
+check_connectivity_from_node $NODE_IP $BRIDGE_IP
+check_connectivity_from_node $NODE_IP $TO_BRIDGE_IP
 check_connectivity_from_container $CON1 $IP1 $NODE_IP
+check_connectivity_from_container $CON1 $IP1 $BRIDGE_IP
 check_connectivity_from_container $CON1 $IP1 $IP1
 check_connectivity_from_container $CON1 $IP1 $IP2
 check_connectivity_from_container $CON1 $IP1 $TO_NODE_IP
+check_connectivity_from_container $CON1 $IP1 $TO_BRIDGE_IP
 check_connectivity_from_container $CON1 $IP1 $TO_IP1
 check_connectivity_from_container $CON1 $IP1 $TO_IP2
 check_connectivity_from_container $CON2 $IP2 $NODE_IP
+check_connectivity_from_container $CON2 $IP2 $BRIDGE_IP
 check_connectivity_from_container $CON2 $IP2 $IP1
 check_connectivity_from_container $CON2 $IP2 $IP2
 check_connectivity_from_container $CON2 $IP2 $TO_NODE_IP
+check_connectivity_from_container $CON2 $IP2 $TO_BRIDGE_IP
 check_connectivity_from_container $CON2 $IP2 $TO_IP1
 check_connectivity_from_container $CON2 $IP2 $TO_IP2
