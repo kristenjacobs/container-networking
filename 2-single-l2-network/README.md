@@ -3,7 +3,7 @@
 An example of creating a single L2 network of 2 nodes, each containing 
 2 networks namespaces (containers), connected via a bridge.
 
-Creates the 2 VMs (container-networking-1 and container-networking-2:
+Create the 2 VMs (container-networking-1 and container-networking-2):
 
 ```
 vagrant up
