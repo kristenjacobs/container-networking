@@ -49,3 +49,6 @@ sudo ip route add $TO_BRIDGE_SUBNET via $TO_NODE_IP dev enp0s8
 echo "Setting the default route in the containers"
 sudo ip netns exec $CON1 ip route add default via $BRIDGE_IP dev veth11
 sudo ip netns exec $CON2 ip route add default via $BRIDGE_IP dev veth21
+
+echo "Enables IP forwarding on the node"
+sudo sysctl -w net.ipv4.ip_forward=1
