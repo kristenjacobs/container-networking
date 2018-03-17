@@ -1,0 +1,26 @@
+CON1="con1"
+CON2="con2"
+
+if [ $(hostname) == "container-networking-1" ]; then 
+    NODE_IP="10.0.0.10"
+    BRIDGE_SUBNET="172.16.0.0/24"
+    BRIDGE_IP="172.16.0.1"
+    IP1="172.16.0.2"
+    IP2="172.16.0.3"
+    TO_NODE_IP="10.0.0.20"
+    TO_BRIDGE_SUBNET="172.16.1.0/24"
+    TO_BRIDGE_IP="172.16.1.1"
+    TO_IP1="172.16.1.2"
+    TO_IP2="172.16.1.3"
+else
+    NODE_IP="10.0.0.20"
+    BRIDGE_SUBNET="172.16.1.0/24"
+    BRIDGE_IP="172.16.1.1"
+    IP1="172.16.1.2"
+    IP2="172.16.1.3"
+    TO_NODE_IP="10.0.0.10"
+    TO_BRIDGE_SUBNET="172.16.0.0/24"
+    TO_BRIDGE_IP="172.16.0.1"
+    TO_IP1="172.16.0.2"
+    TO_IP2="172.16.0.3"
+fi
