@@ -2,6 +2,10 @@
 
 . env.sh
 
+echo "Installing the dependencies"
+sudo apt-get update
+sudo apt-get install socat
+
 echo "Creating the namespaces"
 sudo ip netns add $CON1
 sudo ip netns add $CON2
@@ -49,3 +53,12 @@ sudo ip netns exec $CON2 ip route add default via $BRIDGE_IP dev veth21
 
 echo "Enables IP forwarding on the node"
 sudo sysctl -w net.ipv4.ip_forward=1
+
+echo "Starts the UDP tunnel in the background"
+sudo socat TUN:$TUNNEL_IP/16,iff-up UDP:$TO_NODE_IP:9000,bind=$NODE_IP:9000 &
+
+echo "Disables reverse path filtering"
+sudo bash -c 'echo 0 > /proc/sys/net/ipv4/conf/all/rp_filter'
+sudo bash -c 'echo 0 > /proc/sys/net/ipv4/conf/enp0s8/rp_filter'
+sudo bash -c 'echo 0 > /proc/sys/net/ipv4/conf/br0/rp_filter'
+sudo bash -c 'echo 0 > /proc/sys/net/ipv4/conf/tun0/rp_filter'

@@ -31,6 +31,10 @@ check_connectivity_from_node $NODE_IP $NODE_IP
 check_connectivity_from_node $NODE_IP $TO_NODE_IP
 check_connectivity_from_node $NODE_IP $BRIDGE_IP
 check_connectivity_from_node $NODE_IP $TO_BRIDGE_IP
+check_connectivity_from_node $NODE_IP $IP1
+check_connectivity_from_node $NODE_IP $IP2
+check_connectivity_from_node $NODE_IP $TO_IP1
+check_connectivity_from_node $NODE_IP $TO_IP2
 check_connectivity_from_container $CON1 $IP1 $NODE_IP
 check_connectivity_from_container $CON1 $IP1 $BRIDGE_IP
 check_connectivity_from_container $CON1 $IP1 $IP1

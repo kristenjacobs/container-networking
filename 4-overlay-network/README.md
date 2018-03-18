@@ -19,18 +19,6 @@ cd /vagrant
 ./setup.sh
 ```
 
-To set up the overlay on container-networking-1:
-
-```
-sudo socat TUN:192.168.100.1/24,iff-up UDP:10.0.0.20:9000,bind=10.0.0.10:9000
-```
-
-To set up the overlay on container-networking-2:
-
-```
-sudo socat TUN:192.168.100.2/24,iff-up UDP:10.0.0.10:9000,bind=10.0.0.20:9000
-```
-
 To see the status of the interfaces/route tables within each of the nodes and the namespaces, run:
 
 ```
