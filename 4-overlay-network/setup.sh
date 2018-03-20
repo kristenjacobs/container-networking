@@ -2,10 +2,6 @@
 
 . env.sh
 
-echo "Installing the dependencies"
-sudo apt-get update
-sudo apt-get install socat
-
 echo "Creating the namespaces"
 sudo ip netns add $CON1
 sudo ip netns add $CON2
