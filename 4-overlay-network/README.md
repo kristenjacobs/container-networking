@@ -15,7 +15,6 @@ SSH to each node (VM) in turn, and run the setup script to create the network na
 
 ```
 vagrant ssh container-networking-[12]
-cd /vagrant
 ./setup.sh
 ```
 
