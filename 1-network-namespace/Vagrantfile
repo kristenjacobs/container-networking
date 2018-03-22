@@ -1,6 +1,10 @@
 # -*- mode: ruby -*-
 # vi: set ft=ruby :
 
+$script = <<SCRIPT
+echo "cd /vagrant" >> /home/vagrant/.bashrc
+SCRIPT
+
 Vagrant.configure(2) do |config|
   config.vm.define "container-networking" do |s1|
       s1.vm.box = "ubuntu/xenial64"
@@ -9,5 +13,6 @@ Vagrant.configure(2) do |config|
       s1.vm.provider :virtualbox do |vb|
           vb.customize ["modifyvm", :id, "--nicpromisc2", "allow-all"]
       end
+      s1.vm.provision "shell", inline: $script
   end
 end
