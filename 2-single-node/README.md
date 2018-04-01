@@ -1,4 +1,4 @@
-# L2 Network single Node
+# Single Node Network
 
 An example of creating a single L2 network on one node, containing 
 2 network namespaces (containers), connected via a bridge.

@@ -1,4 +1,4 @@
-# Multiple L2 Networks
+# Multi Node Network
 
 An example of creating multiple L2 networks, one on each of the nodes. Each network contains
 2 network namespaces (containers), connected via a bridge, and have different subnets. The 
