@@ -29,6 +29,9 @@ echo "Adding the containers interfaces to the bridge"
 sudo ip link set dev veth10 master br0
 sudo ip link set dev veth20 master br0
 
+echo "Assigning the IP address to the bridge"
+sudo ip addr add $BRIDGE_IP/24 dev br0
+
 echo "Enabling the bridge"
 sudo ip link set dev br0 up
 
@@ -40,6 +43,9 @@ echo "Setting the loopback interfaces in the containers"
 sudo ip netns exec $CON1 ip link set lo up
 sudo ip netns exec $CON2 ip link set lo up
 
-echo "Setting the routes on the node"
-sudo ip route del 10.0.0.0/24 dev enp0s3 src $NODE_IP
-sudo ip route add 10.0.0.0/24 dev br0 src $NODE_IP
+echo "Setting the default route in the containers"
+sudo ip netns exec $CON1 ip route add default via $BRIDGE_IP dev veth11
+sudo ip netns exec $CON2 ip route add default via $BRIDGE_IP dev veth21
+
+echo "Enables IP forwarding on the node"
+sudo sysctl -w net.ipv4.ip_forward=1
