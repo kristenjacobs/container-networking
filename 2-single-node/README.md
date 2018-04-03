@@ -3,6 +3,8 @@
 An example of creating a single L2 network on one node, containing 
 2 network namespaces (containers), connected via a bridge.
 
+![Diagram](./diagram.jpg)
+
 Create the VM (container-networking):
 
 ```

@@ -5,6 +5,8 @@ An example of creating multiple L2 networks, one on each of the nodes. Each netw
 containers are connected via an overlay network implemented with a tuntap device and a UDP
 cnnection between hosts.
 
+![Diagram](./diagram.jpg)
+
 Create the 2 VMs (container-networking-1 and container-networking-2):
 
 ```

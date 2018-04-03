@@ -3,6 +3,8 @@
 An example of creating a simple network namespace connected
 to the host via a veth pair.
 
+![Diagram](./diagram.jpg)
+
 Create the VM:
 
 ```
