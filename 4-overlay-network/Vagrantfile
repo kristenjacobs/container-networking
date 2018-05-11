@@ -3,7 +3,25 @@
 
 $script = <<SCRIPT
 echo "cd /vagrant" >> /home/vagrant/.bashrc
-dpkg -i /vagrant/socat_1.7.3.1-1_amd64.deb
+dpkg -i --force-all /vagrant/pkg/socat_1.7.3.1-1_amd64.deb
+dpkg -i --force-all /vagrant/pkg/geoip-database-extra_20160408-1_all.deb
+dpkg -i --force-all /vagrant/pkg/javascript-common_11_all.deb
+dpkg -i --force-all /vagrant/pkg/liblua5.2-0_5.2.4-1ubuntu1_amd64.deb
+dpkg -i --force-all /vagrant/pkg/libnghttp2-14_1.7.1-1_amd64.deb
+dpkg -i --force-all /vagrant/pkg/libnl-3-200_3.2.27-1ubuntu0.16.04.1_amd64.deb
+dpkg -i --force-all /vagrant/pkg/libnl-genl-3-200_3.2.27-1ubuntu0.16.04.1_amd64.deb
+dpkg -i --force-all /vagrant/pkg/libssh-gcrypt-4_0.6.3-4.3_amd64.deb
+dpkg -i --force-all /vagrant/pkg/libc-ares2_1.10.0-3ubuntu0.2_amd64.deb
+dpkg -i --force-all /vagrant/pkg/libjs-openlayers_2.13.1+ds2-2_all.deb
+dpkg -i --force-all /vagrant/pkg/libsbc1_1.3-1_amd64.deb
+dpkg -i --force-all /vagrant/pkg/libsmi2ldbl_0.4.8+dfsg2-11_amd64.deb
+dpkg -i --force-all /vagrant/pkg/libwsutil7_2.2.6+g32dac6a-2ubuntu0.16.04_amd64.deb
+dpkg -i --force-all /vagrant/pkg/libwscodecs1_2.2.6+g32dac6a-2ubuntu0.16.04_amd64.deb
+dpkg -i --force-all /vagrant/pkg/libwiretap6_2.2.6+g32dac6a-2ubuntu0.16.04_amd64.deb
+dpkg -i --force-all /vagrant/pkg/libwireshark-data_2.2.6+g32dac6a-2ubuntu0.16.04_all.deb
+dpkg -i --force-all /vagrant/pkg/libwireshark8_2.2.6+g32dac6a-2ubuntu0.16.04_amd64.deb
+dpkg -i --force-all /vagrant/pkg/wireshark-common_2.2.6+g32dac6a-2ubuntu0.16.04_amd64.deb
+dpkg -i --force-all /vagrant/pkg/tshark_2.2.6+g32dac6a-2ubuntu0.16.04_amd64.deb
 SCRIPT
 
 Vagrant.configure(2) do |config|
