@@ -30,3 +30,16 @@ To test the connectivity between the node and the namespace, run the following:
 ```
 ./test.sh
 ```
+
+For an example of running a process inside of the network namespace, run the following:
+
+```
+./exec-process.sh
+```
+
+This will run the Python simple HTTP file server. From the default network namespace,
+it can be called as follows:
+
+```
+curl 10.0.0.11:8000
+```
