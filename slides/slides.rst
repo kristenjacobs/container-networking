@@ -53,10 +53,28 @@ Within each of the above, the most specific CIDR range takes priority.
 .. image:: ../4-overlay-network/diagram.jpg
    :height: 710px
 
-Links
------
+Putting it all together
+-----------------------
 
-* https://github.com/kristenjacobs/container-networking
+1. *Flannel*
+    * *host-gw*: Step 3.
+    * *udp*: Step 4.
+    * *vxlan*: Step 4, but implemented in the kernel => more efficient!
+    * *awsvpc*: Sets routes in AWS.
+    * *gce*: Sets routes in GCE.
+    * Node->pod-subnet mapping stored in *etcd*.
+
+2. *Calico*
+    * No overlay for intra L2. Uses next-hop routing (step 3).
+    * For inter L2 node comminucation, uses IPIP overlay.
+    * Node->pod-subnet mappings distributed to nodes using BGP.
+
+3. *Weave*
+    * Similar to *Flannel*, i.e. uses *vxlan* overlay for connectivity.
+    * No need for *etcd*. Node->pod-subnet mapping distrubuted to each node peer to peer.
+
+.. image:: github.png
+   :height: 710px
 
 .. header::
     container networking from scratch
