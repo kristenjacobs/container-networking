@@ -8,6 +8,9 @@
 ## Intro
 
 * Motivation. Why am I doing this?
+* Prerequsites. Aiming to describe *container* mnetworking from scratch. However,
+  some networking concepts such as L2 vs. L3, subnets, CIDR ranges are assumed.
+  I'll try my best to briefly describe these as we go..
 * No expert though. Ask questions!
 
 ## Aim
@@ -20,7 +23,7 @@
 * Summarise the 4 steps.
 * Summarise the demo setup, i.e. using pre-prepared/up vagrant environments.
 
-# Step 1: Diagram
+## Step 1: Diagram
 
 * Describe the outer box (the node). Could be a physical machine, or a VM as in this case.
 * Describe containers vs namespaces:
@@ -116,11 +119,14 @@
 
 ## Step 4: Diagram
 
-* Now can't use static routes, as nodes could be on different subnets.
-    * One way is to update routes on all routers in between (which can he done)
+* Now can't use static routes, as nodes could be on different subnets. Options:
+    * Update routes on all routers in between (which can he done if you have control over the routers).
+    * If running on cloud, then they typically provide an option to add routes (node-\>pod-subnet mappings) into your virtual network.
     * Another way us to use overlay network.
-* Define an overlay network. A system such that processes can comunicate even though the routers in between dont know the where the processes actaully live.
-* Introduce tun/tap devices.
+* Define an overlay network. A system such that processes can comunicate even though the routers in between don't know the where the processes actaully live.
+* Introduce *tun/tap* devices. A network interface backed by a user-space process.
+    * *tun* device accepts/outputs raw IP packets.  
+    * *tap* device accepts/outputs raw ethernet packets.  
 * How would we use it in this case.
 * Now no need for the static routes.
 * Talk about the routing for the overlay.
@@ -157,15 +163,20 @@ So how does this work in the real world?
 * Need a way to map nodes to subnets. In Kubernetes, this could be Etcd.
 
 * Popular network solutions:
-    * 1. *Flannel* Multiple backends:
-        * *host-gw*: step 3
-        * *udp*: step 4
-        * *vxlan*: step 4, but more efficient. 
-        * *awsvpc*: Sets routes in AWS.
+    * 1. *Flannel* 
+        * Uses *etcd* to store the node->pod-subnet mapping.
+        * Multiple backends:
+            * *host-gw*: step 3
+            * *udp*: step 4
+            * *VXLAN*: step 4, but more efficient. 
+            * *awsvpc*: Sets routes in AWS.
     * 2. *Calico*
-        * TODO
+        * No overlay for intra L2. Uses next-hop routing (step 3).
+        * For inter L2 node comminucation, uses IPIP overlay.
+        * Node->pod-subnet mappings distributed to nodes using BGP.
     * 3. *Weave*
-        * TODO
+        * Similar to *Flannel*, uses *VXLAN* overlay for connectivity.
+        * No need for *etcd*. Node->pod-subnet mapping distrubuted to each node via gossiping. 
 
 ## End
 
