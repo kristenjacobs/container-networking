@@ -29,6 +29,21 @@ To work our way from nothing, to a (flannel style) overlay network in 4 'easy' s
 .. image:: ../1-network-namespace/diagram.jpg
    :height: 710px
 
+Routing rules 101
+-----------------
+
+4 Types of routing rules (in order of preceedence):
+
+1. Directly connected network, e.g. *10.0.0.0/24 eth1*
+
+2. Static (manually added) routing rule, e.g. *10.0.0.0/24 via 10.0.0.1 eth0*
+
+3. Dynamic (automatically added) routing rule, e.g. *10.0.0.0/24 via 10.0.0.1 eth0*
+
+4. Default rule, e.g. *default via 10.0.0.1 eth0*
+
+Within each of the above, the most specific CIDR range takes priority.
+
 .. image:: ../2-single-node/diagram.jpg
    :height: 710px
 
