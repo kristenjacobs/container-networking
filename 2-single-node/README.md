@@ -19,12 +19,6 @@ cd /vagrant
 ./setup.sh
 ```
 
-To see the status of the interfaces/route tables within each of the nodes and the namespaces, run:
-
-```
-./status.sh
-```
-
 To test the connectivity between the containers within the node, run the following:
 
 ```

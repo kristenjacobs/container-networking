@@ -19,12 +19,6 @@ cd /vagrant
 ./setup.sh
 ```
 
-To see the status of the interfaces/route tables within the node and the namespace, run:
-
-```
-./status.sh
-```
-
 To test the connectivity between the node and the namespace, run the following:
 
 ```
@@ -34,7 +28,7 @@ To test the connectivity between the node and the namespace, run the following:
 For an example of running a process inside of the network namespace, run the following:
 
 ```
-./exec-process.sh
+sudo ip netns exec con python3 -m http.server 8000
 ```
 
 This will run the Python simple HTTP file server. From the default network namespace,
