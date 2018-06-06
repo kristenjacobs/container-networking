@@ -76,5 +76,11 @@ Putting it all together
 .. image:: github.png
    :height: 710px
 
+.. image:: appendix-cidr.jpg
+   :height: 710px
+
+.. image:: appendix-l2vsl3.jpg
+   :height: 710px
+
 .. header::
     container networking from scratch
