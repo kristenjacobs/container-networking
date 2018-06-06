@@ -53,6 +53,9 @@ Within each of the above, the most specific CIDR range takes priority.
 .. image:: ../4-overlay-network/diagram.jpg
    :height: 710px
 
+.. image:: overlay.jpg
+   :height: 710px
+
 Putting it all together
 -----------------------
 
