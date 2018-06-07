@@ -25,3 +25,9 @@ To test the connectivity between the containers within and node, and across node
 ```
 ./test.sh
 ```
+
+To teardown the network:
+
+```
+./teardown.sh
+```

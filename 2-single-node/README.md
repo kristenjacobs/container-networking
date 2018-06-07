@@ -24,3 +24,9 @@ To test the connectivity between the containers within the node, run the followi
 ```
 ./test.sh
 ```
+
+To teardown the network:
+
+```
+./teardown.sh
+```

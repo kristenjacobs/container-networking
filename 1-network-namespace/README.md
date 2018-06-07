@@ -37,3 +37,9 @@ it can be called as follows:
 ```
 curl 10.0.0.11:8000
 ```
+
+To teardown the network:
+
+```
+./teardown.sh
+```
