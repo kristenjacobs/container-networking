@@ -28,6 +28,6 @@ function check_connectivity_from_container {
 }
 
 check_connectivity_from_node $NODE_IP $NODE_IP
-check_connectivity_from_node $NODE_IP $NAMESPACE_IP
-check_connectivity_from_container $CON $NAMESPACE_IP $NODE_IP
-check_connectivity_from_container $CON $NAMESPACE_IP $NAMESPACE_IP
+check_connectivity_from_node $NODE_IP $IP
+check_connectivity_from_container $CON $IP $NODE_IP
+check_connectivity_from_container $CON $IP $IP
