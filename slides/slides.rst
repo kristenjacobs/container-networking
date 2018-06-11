@@ -79,6 +79,14 @@ Putting it all together
 .. image:: github.png
    :height: 710px
 
+.. class:: center
+
+Questions?
+----------
+
+.. image:: bear.jpg
+   :height: 500px
+
 .. image:: appendix-cidr.jpg
    :height: 710px
 
