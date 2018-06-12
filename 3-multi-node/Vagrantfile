@@ -8,13 +8,13 @@ SCRIPT
 Vagrant.configure(2) do |config|
   config.vm.define "container-networking-1" do |s1|
       s1.vm.box = "ubuntu/xenial64"
-      s1.vm.network :private_network, ip: "10.0.0.10"
+      s1.vm.network :private_network, ip: "10.0.0.10", virtualbox__intnet: true
       s1.vm.hostname = "container-networking-1"
       s1.vm.provision "shell", inline: $script
   end
   config.vm.define "container-networking-2" do |s2|
       s2.vm.box = "ubuntu/xenial64"
-      s2.vm.network :private_network, ip: "10.0.0.20"
+      s2.vm.network :private_network, ip: "10.0.0.20", virtualbox__intnet: true
       s2.vm.hostname = "container-networking-2"
       s2.vm.provision "shell", inline: $script
   end
