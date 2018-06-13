@@ -11,3 +11,8 @@ vagrant-destroy: $(SUBDIRS)
 	for d in $(SUBDIRS); do \
 	    cd $$d && vagrant destroy --force && cd ../ ; \
 	done
+
+vagrant-status: $(SUBDIRS)
+	for d in $(SUBDIRS); do \
+	    cd $$d && vagrant status && cd ../ ; \
+	done
