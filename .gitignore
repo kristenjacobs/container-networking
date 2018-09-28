@@ -1,3 +1,7 @@
 ubuntu-xenial-16.04-cloudimg-console.log
 .vagrant
 venv
+setup*.log
+setup*.complete
+teardown*.log
+teardown*.complete
