@@ -22,3 +22,7 @@ vagrant-destroy: $(SUBDIRS)
 	    cd $$d && vagrant destroy --force && cd ../ ; \
 	done
 
+clean: $(SUBDIRS)
+	for d in $(SUBDIRS); do \
+	    cd $$d && make clean && cd ../ ; \
+	done

@@ -19,4 +19,5 @@ Vagrant.configure(2) do |config|
       s2.vm.provision "shell", inline: $script
   end
   config.vm.box_check_update = false
+  config.vbguest.auto_update = false
 end
