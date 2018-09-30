@@ -3,6 +3,8 @@
 
 $script = <<SCRIPT
 echo "cd /vagrant" >> /home/vagrant/.bashrc
+echo ":set number"        >> /home/vagrant/.vimrc
+echo ":colorscheme delek" >> /home/vagrant/.vimrc
 SCRIPT
 
 Vagrant.configure(2) do |config|

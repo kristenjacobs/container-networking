@@ -3,6 +3,8 @@
 
 $script = <<SCRIPT
 echo "cd /vagrant" >> /home/vagrant/.bashrc
+echo ":set number"        >> /home/vagrant/.vimrc
+echo ":colorscheme delek" >> /home/vagrant/.vimrc
 export DEBIAN_FRONTEND=noninteractive
 dpkg -i --force-all /vagrant/pkg/socat_1.7.3.1-1_amd64.deb
 dpkg -i --force-all /vagrant/pkg/geoip-database-extra_20160408-1_all.deb
