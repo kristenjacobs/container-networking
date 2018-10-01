@@ -1,7 +1,0 @@
-docutils==0.14
-pdfrw==0.4
-Pillow==5.1.0
-pkg-resources==0.0.0
-Pygments==2.2.0
-reportlab==3.4.0
-rst2pdf==0.93.dev0
