@@ -15,3 +15,6 @@ teardown:
 
 clean:
 	rm -rf *.log *.complete
+
+ssh:
+	vagrant ssh container-networking
