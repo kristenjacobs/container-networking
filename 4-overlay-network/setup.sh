@@ -55,7 +55,7 @@ sudo sysctl -w net.ipv4.ip_forward=1
 echo "Starts the UDP tunnel in the background"
 sudo socat TUN:$TUNNEL_IP/16,iff-up UDP:$TO_NODE_IP:9000,bind=$NODE_IP:9000 &
 
-echo "Setting thr MTU on the tun interface"
+echo "Setting the MTU on the tun interface"
 sudo ip link set dev tun0 mtu 1492
 
 echo "Disables reverse path filtering"
