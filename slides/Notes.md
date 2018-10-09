@@ -84,11 +84,22 @@ this.
 
 ### The demo
 
-* Run the *setup.sh* script. 
-* Show the interfaces/routes on the node.
-* Show the interfaces/routes in the network namespace.
-* Ping network namespace from node.
-* Ping node from network namespace.
+```
+./setup.sh
+# The interfaces inside the network namespace
+sudo ip netns exec con ip a
+# The routes inside the network namespace
+sudo ip netns exec con ip r
+# The interfaces on the node
+ip a
+# The routes on the node
+ip r
+# Pings the network namespace from the node
+ping 176.16.0.1
+# Pings the node from the network namespace
+sudo ip netns exec con ping 10.0.0.10
+```
+
 * What is actually responding to the pings in these cases, as there is no process running 
   inside the namespace who can respond in this case?
   Do a quick dive into ICMP here. It is a layer 3(.5?) protocol, i.e. we have 
@@ -99,9 +110,18 @@ this.
      - Bits for echo request and echo response (A.K.A ping).
   Therefore, in this case, it is the network stack in the kernel that is reponding to the 
   ICMP echo request packet, with a ICMP echo request packet.
-* Show how we can run a real process in the network namespace (the python file server), and show curling this from the node.
-* Explain that we can have multiple processes running inside a network namespace (e.g. in Kubernetes this corresponds to a pod).
-* Start a 2nd python file server and curl this from the node.
+
+For a more realistic example, We can run one (or more) real process in the network namespace 
+(e.g. the python file server), and can the curl this from the node:
+
+```
+# Runs the python file server in the background on port 8000, inside the network namespace
+sudo ip netns exec con python3 -m http.server 8000 &
+# Curls the python file server from the node
+curl 172.16.0.1:8000
+```
+
+Note: you can run multiple processes inside a network namespace, which roughly corresponds to a Kubernetes pod.
 
 ## Slide: Diagram of multiple network namespaces on the same node
 
@@ -121,14 +141,27 @@ this.
 
 ### The demo
 
-* Run the *setup.sh* script. 
-* Show the interfaces/routes on the node.
-* Show the interfaces/routes in the network namespace.
-* Ping between network namespaces.
+```
+./setup.sh
+# The interfaces inside a network namespace
+sudo ip netns exec con ip a
+# The routes inside a network namespace
+sudo ip netns exec con ip r
+# The interfaces on the node
+ip a
+# The routes on the node
+ip r
+# Ping between the network namespaces
+sudo ip netns exec con1 ping 172.16.0.3
+# Pings the node from the network namespace
+sudo ip netns exec con ping 10.0.0.10
+```
+
+* When we ping between the network namespaces:
     * Highlight the TTL. Should be the default value, thus no routing is going on here!
     * Describe what the TTL is, and what happens when the TTL reaches zero.
     * Can also describe how the TTL is used, e.g. in the implementation of traceroute.
-* Ping network namespace from node.
+* When we ping network namespace from node:
     * Highlight the TTL. Should be the same.
 * Mention that currently we cant get external traffic to the namespaces, as we are not fowarding IP packets. 
   However, we will set this up in the next example.
@@ -153,12 +186,32 @@ this.
 
 ### The demo
 
-* Run the *setup.sh* script. 
-* Show the interfaces/routes on the node.
-* Show the interfaces/routes in the network namespace.
-* Demo a pinging from a network namespaces to another network namespace across nodes.
+On each node, run:
+
+```
+./setup.sh
+```
+
+Then from 10.0.0.10:
+
+```
+# The interfaces inside a network namespace
+sudo ip netns exec con ip a
+# The routes inside a network namespace
+sudo ip netns exec con ip r
+# The interfaces on the node
+ip a
+# The routes on the node
+ip r
+# Ping from a network namespaces on one node to one on the other node
+sudo ip netns exec con1 ping 172.16.1.2
+# Pings from a node to a network namespace on the other node
+ping 172.16.1.2
+```
+
+* When we ping from a network namespaces to another network namespace across nodes:
     * Highlight the TTL. Explain the reported value.
-* Demo pinging a network namespace on the other node from the node.
+* When we ping a network namespace on the other node from the node:
     * Highlight the TTL. Explain the reported value.
 
 ## Slide: Diagram of multiple network namespaces on different nodes on different subnets (the overlay network)
@@ -198,21 +251,54 @@ this.
   fragmentation does not occur.
 * Describe the scheme that is used to ensure that the kernel chooses packet sizes that dont cause fragmentation
   (using the DF bit in the IP packets, and the 'Fragmentation required' ICMP response.
-
-### The demo
-
-* Run the *setup.sh* script. 
 * Reverse packet filtering:
     * What is this: Discards incoming packets from interfaces where they shouldn't be.
     * It's purpose: A security feature to stop IP spoofed packets from being propagated.
     * Why we need the reverse packet filtering in this case?
     * Is it OK to turn this off? Again, maybe. Alternative is to ensure that packets from network 
       namespaces to remote nodes also go via the overlay (which would involve src based routing!)
-* Demo ping from a network namespace to a network namespace across nodes.
+
+### The demo
+
+On each node, run:
+
+```
+./setup.sh
+```
+
+Then from 10.0.0.10:
+
+```
+# Ping from a network namespaces on one node to one on the other node
+sudo ip netns exec con1 ping 172.16.1.2
+# Pings from a node to a network namespace on the other node
+ping 172.16.1.2
+```
+
+* When we ping from a network namespace to a network namespace across nodes:
     * Highlight the TTL. Explain the reported value (should have decreased by 2).
-    * Show the *tshark* output from *eth0*, *tun0* and *br0* on the remote node.
-* Demo ping from a network namespace to remote node.
+* When we ping from a node to a remote network namespace:
     * Highlight the TTL. Explain the reported value (should have decreased by 1).
+
+To see the encapsulation process more clearly:
+
+On node 10.0.0.10:
+
+```
+# Pings from a local network namespace to a remote network namespace"
+./send.sh
+```
+
+Meanwhile, on node 10.0.0.20:
+
+```
+# Captures traffic on interface enp0s8
+./capture.sh enp0s8
+# Captures traffic on interface tun0
+./capture.sh tun0
+# Captures traffic on interface br0
+./capture.sh br0
+```
 
 ## Slide: Putting it all together
 
