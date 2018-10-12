@@ -1,7 +1,5 @@
 # Container Networking Talk Notes
 
-## Intro
-
 * Motivation. Why am I doing this?
   Some time back I looked into updating the networking layer in the Oracle managed 
   networking service from using Flannel (an overlay network) to a solution which utilises
@@ -14,7 +12,7 @@
 
 * No expert though, i.e. at the end of this talk you'll know everythng I know about container networking!
 
-## Slide: The Aim
+## Slide: The aim
 
 * Aim to model the Kubernetes model.
     * Each container (pod) has its own unique IP. 
@@ -25,7 +23,7 @@
     * i.e. only containers on a node have unique IP addresses.
     * Processes inside containers accessed via port mapping (IP tables). 
 
-## Slide: The Plan
+## Slide: The plan
 
 * Summarise the 4 steps.
 
@@ -60,7 +58,7 @@
 * Describe VETH pair: Ethernet cable with NIC on each end.
 * Describe the relevant routing from/to the network namespace.
 
-## Slide: Routing Rules 101
+## Slide: Routing rules 101
 
 The key 'aha' moment for for me in this whole process was understanding routing
 rules, and their types, as this made routing in general 'click' into place.
@@ -74,15 +72,14 @@ this.
     4. Default gateway.
 * Within each type, if overlapping, give precedence to the most specific CIDR range.
 
-## Single network namespace demo
+## Code: Single network namespace setup.sh
 
 * Explain that we are running in a single node vagrant setup.
-* Talk through the *env.sh*.
 * Talk through the *setup.sh*.
     * Talk about the *ip* tool.
     * Describe each setup line.
 
-### The demo
+## Demo: Single network namespace
 
 ```
 ./setup.sh
@@ -131,22 +128,21 @@ Note: you can run multiple processes inside a network namespace, which roughly c
 * The bridge also has its own IP: Allows access from the outside.
 * Describe the route for the subnet.
 
-## Multiple network namespace demo
+## Code: Multiple network namespace setup.sh
 
 * Explain that we now using a (new but similar) single node vagrant environment.
-* Talk through the *env.sh*.
 * Talk through the *setup.sh*.
     * Describe the parts common to the previous step.
     * Describe the bridge creation lines.
 
-### The demo
+## Demo: Multiple network namespace
 
 ```
 ./setup.sh
 # The interfaces inside a network namespace
-sudo ip netns exec con ip a
+sudo ip netns exec con1 ip a
 # The routes inside a network namespace
-sudo ip netns exec con ip r
+sudo ip netns exec con1 ip r
 # The interfaces on the node
 ip a
 # The routes on the node
@@ -154,7 +150,7 @@ ip r
 # Ping between the network namespaces
 sudo ip netns exec con1 ping 172.16.0.3
 # Pings the node from the network namespace
-sudo ip netns exec con ping 10.0.0.10
+sudo ip netns exec con1 ping 10.0.0.10
 ```
 
 * When we ping between the network namespaces:
@@ -173,10 +169,9 @@ sudo ip netns exec con ping 10.0.0.10
 * Talk about the (next hop) routing between nodes (only works if the nodes are on the same L2 network). 
 * Note that this is how the the *host-gw* flannel backend works, and also single L2 *Calico*.
 
-## Multi node demo
+## Code: Multi node setup.sh
 
 * Explain that we are now using a 2 node vagrant setup.
-* Talk through the *env.sh*.
 * Talk through the *setup.sh*.
     * Describe the parts common to the previous step.
     * Describe the setup of the extra routes.
@@ -184,7 +179,7 @@ sudo ip netns exec con ping 10.0.0.10
     * What does this do/why is it needed: Turns your Linux box into a router.
     * Is enabling this a security risk: Maybe, but it is required in this case!
 
-### The demo
+## Demo: Multi node
 
 On each node, run:
 
@@ -196,9 +191,9 @@ Then from 10.0.0.10:
 
 ```
 # The interfaces inside a network namespace
-sudo ip netns exec con ip a
+sudo ip netns exec con1 ip a
 # The routes inside a network namespace
-sudo ip netns exec con ip r
+sudo ip netns exec con1 ip r
 # The interfaces on the node
 ip a
 # The routes on the node
@@ -230,10 +225,9 @@ ping 172.16.1.2
 * This corresponds to the UDP backend for flannel (only recommended for debugging).
 * For production, the *VXLAN* backend is recommended.
 
-## Overlay network demo
+## Code: Overlay network setup.sh
 
 * Explain that we are now using a (new but similar) 2 node vagrant setup.
-* Talk through the *env.sh* (same as previous step).
 * Talk through the *setup.sh*. 
     * Describe the parts common to the previous step.
     * We need packet forwarding enabled here. This allows the node to act as a router, i.e.
@@ -258,7 +252,7 @@ ping 172.16.1.2
     * Is it OK to turn this off? Again, maybe. Alternative is to ensure that packets from network 
       namespaces to remote nodes also go via the overlay (which would involve src based routing!)
 
-### The demo
+## Demo: Overlay network
 
 On each node, run:
 
