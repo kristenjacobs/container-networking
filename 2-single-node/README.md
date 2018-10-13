@@ -30,3 +30,9 @@ To teardown the network:
 ```
 ./teardown.sh
 ```
+
+To test the entire flow, i.e. setup - run the tests - teardown, from your machine, run the following:
+
+```
+make
+```

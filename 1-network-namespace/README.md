@@ -15,7 +15,6 @@ SSH to the VM and run the setup script to create the network namespace and the v
 
 ```
 vagrant ssh
-cd /vagrant
 ./setup.sh
 ```
 
@@ -48,4 +47,10 @@ To teardown the network:
 
 ```
 ./teardown.sh
+```
+
+To test the entire flow, i.e. setup - run the tests - teardown, from your machine, run the following:
+
+```
+make
 ```

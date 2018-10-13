@@ -83,13 +83,11 @@ this.
 
 ```
 ./setup.sh
-# The interfaces inside the network namespace
+# The interfaces + routes inside the network namespace
 sudo ip netns exec con ip a
-# The routes inside the network namespace
 sudo ip netns exec con ip r
-# The interfaces on the node
+# The interfaces + routes on the node
 ip a
-# The routes on the node
 ip r
 # Pings the network namespace from the node
 ping 176.16.0.1
@@ -139,15 +137,13 @@ Note: you can run multiple processes inside a network namespace, which roughly c
 
 ```
 ./setup.sh
-# The interfaces inside a network namespace
+# The interfaces + routes inside a network namespace
 sudo ip netns exec con1 ip a
-# The routes inside a network namespace
 sudo ip netns exec con1 ip r
-# The interfaces on the node
+# The interfaces + routes on the node
 ip a
-# The routes on the node
 ip r
-# Ping between the network namespaces
+# Pings between the network namespaces
 sudo ip netns exec con1 ping 172.16.0.3
 # Pings the node from the network namespace
 sudo ip netns exec con1 ping 10.0.0.10
@@ -185,22 +181,23 @@ On each node, run:
 
 ```
 ./setup.sh
+# The routes on the node
+ip r
+```
+
+From 10.0.0.20:
+
+```
+# Captures ICMP packetes on the veth20 interface connected to the bridge
+sudo tcpdump -ni veth10 icmp
 ```
 
 Then from 10.0.0.10:
 
 ```
-# The interfaces inside a network namespace
-sudo ip netns exec con1 ip a
-# The routes inside a network namespace
-sudo ip netns exec con1 ip r
-# The interfaces on the node
-ip a
-# The routes on the node
-ip r
-# Ping from a network namespaces on one node to one on the other node
+# Pings from a network namespaces on one node to one on the other node
 sudo ip netns exec con1 ping 172.16.1.2
-# Pings from a node to a network namespace on the other node
+# Pings the same network namespace from the node
 ping 172.16.1.2
 ```
 
@@ -260,12 +257,19 @@ On each node, run:
 ./setup.sh
 ```
 
-Then from 10.0.0.10:
+From 10.0.0.20:
+
+```
+# Captures ICMP packetes on the veth20 interface connected to the bridge
+sudo tcpdump -ni veth10 icmp
+```
+
+From 10.0.0.10:
 
 ```
 # Ping from a network namespaces on one node to one on the other node
 sudo ip netns exec con1 ping 172.16.1.2
-# Pings from a node to a network namespace on the other node
+# Pings the same network namespace from the node
 ping 172.16.1.2
 ```
 
@@ -279,7 +283,7 @@ To see the encapsulation process more clearly:
 On node 10.0.0.10:
 
 ```
-# Pings from a local network namespace to a remote network namespace"
+# Pings from a local network namespace to a remote network namespace
 ./send.sh
 ```
 
