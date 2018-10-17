@@ -218,6 +218,9 @@ ping 172.16.1.2
     * *tap* device accepts/outputs raw ethernet packets.  
 * How would we use it in this case.
 * Now no need for the static routes.
+
+## Slide: Diagram of the route of a packet through the tun devicies
+
 * Talk about the routing for the overlay.
 * This corresponds to the UDP backend for flannel (only recommended for debugging).
 * For production, the *VXLAN* backend is recommended.
