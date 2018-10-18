@@ -3,8 +3,9 @@
 
 $script = <<SCRIPT
 echo "cd /vagrant" >> /home/vagrant/.bashrc
-echo ":set number"        >> /home/vagrant/.vimrc
-echo ":colorscheme delek" >> /home/vagrant/.vimrc
+echo ":set number" >> /home/vagrant/.vimrc
+echo ":set nowrap" >> /home/vagrant/.vimrc
+echo ":colorscheme industry" >> /home/vagrant/.vimrc
 export DEBIAN_FRONTEND=noninteractive
 dpkg -i --force-all /vagrant/pkg/socat_1.7.3.1-1_amd64.deb
 dpkg -i --force-all /vagrant/pkg/geoip-database-extra_20160408-1_all.deb
@@ -28,16 +29,16 @@ dpkg -i --force-all /vagrant/pkg/tshark_2.2.6+g32dac6a-2ubuntu0.16.04_amd64.deb
 SCRIPT
 
 Vagrant.configure(2) do |config|
-  config.vm.define "container-networking-1" do |s1|
+  config.vm.define "4-overlay-network-1" do |s1|
       s1.vm.box = "ubuntu/xenial64"
       s1.vm.network :private_network, ip: "10.0.0.10", virtualbox__intnet: "network4"
-      s1.vm.hostname = "container-networking-1"
+      s1.vm.hostname = "4-overlay-network-1"
       s1.vm.provision "shell", inline: $script
   end
-  config.vm.define "container-networking-2" do |s2|
+  config.vm.define "4-overlay-network-2" do |s2|
       s2.vm.box = "ubuntu/xenial64"
       s2.vm.network :private_network, ip: "10.0.0.20", virtualbox__intnet: "network4"
-      s2.vm.hostname = "container-networking-2"
+      s2.vm.hostname = "4-overlay-network-2"
       s2.vm.provision "shell", inline: $script
   end
   config.vm.box_check_update = false

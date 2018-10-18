@@ -6,7 +6,7 @@ containers are connected via static routing rules set on each of the nodes.
 
 ![Diagram](./diagram.jpg)
 
-Create the 2 VMs (container-networking-1 and container-networking-2):
+Create the 2 VMs (3-multi-node-1 and 3-multi-node-2):
 
 ```
 vagrant up
@@ -15,7 +15,7 @@ vagrant up
 SSH to each node (VM) in turn, and run the setup script to create the network namespaces connected via a bridge: 
 
 ```
-vagrant ssh container-networking-[12]
+vagrant ssh 3-multi-node-[12]
 cd /vagrant
 ./setup.sh
 ```

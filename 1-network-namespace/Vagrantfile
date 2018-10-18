@@ -3,15 +3,16 @@
 
 $script = <<SCRIPT
 echo "cd /vagrant" >> /home/vagrant/.bashrc
-echo ":set number"        >> /home/vagrant/.vimrc
-echo ":colorscheme delek" >> /home/vagrant/.vimrc
+echo ":set number" >> /home/vagrant/.vimrc
+echo ":set nowrap" >> /home/vagrant/.vimrc
+echo ":colorscheme industry" >> /home/vagrant/.vimrc
 SCRIPT
 
 Vagrant.configure(2) do |config|
-  config.vm.define "container-networking" do |s1|
+  config.vm.define "1-network-namespace" do |s1|
       s1.vm.box = "ubuntu/xenial64"
       s1.vm.network :private_network, ip: "10.0.0.10", virtualbox__intnet: "network1"
-      s1.vm.hostname = "container-networking"
+      s1.vm.hostname = "1-network-namespace"
       s1.vm.provision "shell", inline: $script
   end
   config.vm.box_check_update = false

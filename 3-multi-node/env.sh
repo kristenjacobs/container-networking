@@ -1,6 +1,6 @@
 CON1="con1"
 CON2="con2"
-if [ $(hostname) == "container-networking-1" ]; then 
+if [ $(hostname) == "3-multi-node-1" ]; then 
     NODE_IP="10.0.0.10"
     BRIDGE_SUBNET="172.16.0.0/24"
     BRIDGE_IP="172.16.0.1"
