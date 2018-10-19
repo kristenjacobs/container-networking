@@ -3,9 +3,8 @@
 
 $script = <<SCRIPT
 echo "cd /vagrant" >> /home/vagrant/.bashrc
-echo ":set number" >> /home/vagrant/.vimrc
-echo ":set nowrap" >> /home/vagrant/.vimrc
-echo ":colorscheme industry" >> /home/vagrant/.vimrc
+echo "ln -sf /vagrant/.vim /home/vagrant/.vim" >> /home/vagrant/.bashrc
+echo "ln -sf /vagrant/.vimrc /home/vagrant/.vimrc" >> /home/vagrant/.bashrc
 SCRIPT
 
 Vagrant.configure(2) do |config|
