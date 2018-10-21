@@ -14,12 +14,12 @@
 
 ## Slide: The aim
 
-* Aim to model the Kubernetes model.
+* Aim to model the Kubernetes model (LHS diagram).
     * Each container (pod) has its own unique IP. 
     * No NAT'ing going on.
     * Host can talk to containers, and vice versa.
 
-* Contrast this with the default docker approach.
+* Contrast this with the default docker approach (RHS diagram).
     * i.e. Only containers on a node have unique IP addresses.
     * Processes inside containers accessed via port mapping (IP tables). 
 
@@ -152,11 +152,20 @@ sudo ip netns exec con1 ping 10.0.0.10
 * When we ping between the network namespaces:
     * Highlight the TTL. Should be the default value, thus no routing is going on here!
     * Describe what the TTL is, and what happens when the TTL reaches zero.
-    * Can also describe how the TTL is used, e.g. in the implementation of traceroute.
+    * Describe how the TTL is used, e.g. in the implementation of traceroute.
 * When we ping network namespace from node:
     * Highlight the TTL. Should be the same.
 * Mention that currently we cant get external traffic to the namespaces, as we are not fowarding IP packets. 
   However, we will set this up in the next example.
+
+## Slide: Quick recap: L2 vs L3 networks
+
+* Before we move on to the multinode cases, lets have a quick 
+  recap on the difference between a L2 (ethernet) and L3 (IP) network, we are going to need to know 
+  this in order to understand the next 2 cases. 
+* Appologies if I'm telling you stuff you already know though!
+* On a L2 network, each node can send a packet to any other node in a single hop (ethernet packet).
+* If it requires more than one hop, then it needs to be routed (multiple ethernet packetes), thus it is an L3 network.
 
 ## Slide: Diagram of multiple network namespaces on different nodes but same subnet
 
