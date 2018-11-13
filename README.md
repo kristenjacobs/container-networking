@@ -10,9 +10,11 @@ Examples of creating a network of linux containers (network namespaces).
 
 [4 - Overlay Network](4-overlay-network/README.md)
 
-## Talks 
+## Talks: 'Container Networking From Scratch' 
 
 * 2018-06 - Bristol Cloud Native: https://www.youtube.com/watch?v=mICllKv8JM4&t=1712s 
+* 2018-10 - Voxxed Days Bristol: https://voxxeddays.com/bristol/
+* 2018-12 - KubeCon North America: https://sched.co/GrWx
 
 ## References
 
