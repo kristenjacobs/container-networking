@@ -43,18 +43,18 @@
 
 * Describe the outer box (the node). Could be a physical machine, or a VM as in this case.
 
-* Describe containers vs namespaces:
-    * Containers use a bunch of different linux mechanisms to isolate the processes running inside,
-      both in terms of system calls, available resources, what it can see, i.e. filesystems, other processes, etc.
-      However, from a network connectivity point of view, the only mechanism that matters here is the network
-      namespace, so from now on, whenever I say container, what I really mean is network namespace.
+* Describe containers vs namespaces: Containers use a bunch of different linux mechanisms 
+  to isolate the processes running inside, both in terms of system calls, available resources, 
+  what it can see, i.e. filesystems, other processes, etc. However, from a network connectivity 
+  point of view, the only mechanism that matters here is the network namespace, so from now on, 
+  whenever I say container, what I really mean is network namespace.
 
-    * What is a network namespace:
-        * It's own network stack containing: 
-            * It's own interfaces.
-            * It's own routing + route tables.
-            * It's own IPtables rules.
-        * When created, it is empty, i.e. no interfaces, routing or IP tables rules.
+* What is a network namespace: It's another instance of the kernels network stack containing: 
+    * It's own interfaces.
+    * It's own routing + route tables.
+    * It's own IPtables rules.
+        
+* When created, it is empty, i.e. no interfaces, routing or IP tables rules.
 
 * Describe VETH pair: Ethernet cable with NIC on each end.
 
@@ -62,20 +62,22 @@
     * Directly connected route from the host to the network namespace.
     * Default route out of the network namespace.
 
-* Note The 'aha' monment, when I worked out the possible types of routing rules 
-  => Understanding these was for me the key to understanding networking in general.
+* Note The 'aha' monment, when I worked out the possible types of routing rules. 
+  For me, understanding these was for me the key to understanding networking in general.
 
 ## Code: Single network namespace setup.sh
 
 * Explain that we are running in a single node vagrant setup.
-* Talk through the *setup.sh*.
-    * Talk about the *ip* tool.
-    * Describe each setup line.
+* Open the the *setup.sh*.
+* Talk about the *ip* tool.
+* Give a quick run through of each line.
 
 ## Demo: Single network namespace
 
 ```
 ./setup.sh
+# Lists the network namespaces
+ip netns
 # The interfaces inside the network namespace
 sudo ip netns exec con ip a
 # Pings the network namespace from the node
@@ -90,22 +92,24 @@ ping 176.16.0.1
 * For a more realistic example, We would run one (or more) real process in the network namespace. 
   However, for the purposes of testing connectivity, pinging is enough.
 
-* Note: you can run multiple processes inside a network namespace, which is what happens inside Kubernetes pods.
+* Note: you can run multiple processes inside a network namespace, which is what happens 
+  inside Kubernetes pods.
 
 ## Slide: Diagram of multiple network namespaces on the same node
 
-* Describe the Linux bridge: A single L2 broadcast domain, a virtual ethernet switch, implemented in the kernel.
-* The bridge now has its own subnet.
-* The bridge also has its own IP: Allows access from the outside.
+* Describe the Linux bridge: It is a virtual ethernet switch (i.e. a single L2 broadcaset domain), 
+  implemented in the kernel.
+* The bridge has its own subnet.
+* The bridge also has its own IP. This allows access from the outside.
 * Describe the route for the subnet.
-* Note: This corresponds to the default docker0 bridge.
+* Note: This corresponds to the default *docker0* bridge.
 
 ## Code: Multiple network namespace setup.sh
 
 * Explain that we now using a (new but similar) single node vagrant environment.
-* Talk through the *setup.sh*.
-    * Describe the parts common to the previous step.
-    * Describe the bridge creation lines.
+* Open the *setup.sh*.
+* Describe the parts common to the previous step.
+* Describe the bridge creation lines.
 
 ## Demo: Multiple network namespace
 
@@ -134,9 +138,9 @@ sudo ip netns exec con1 ping 10.0.0.10
 ## Code: Multi node setup.sh
 
 * Explain that we are now using a 2 node vagrant setup.
-* Talk through the *setup.sh*.
-    * Describe the parts common to the previous step.
-    * Describe the setup of the extra routes.
+* Open the *setup.sh*.
+* Describe the parts common to the previous step.
+* Describe the setup of the extra routes.
 * Explain the IP forwarding: Turns your Linux box into a router, which is 
   required in this case as the node has to forward the packets for any network 
   namespaces that live on that node.
@@ -170,8 +174,7 @@ sudo ip netns exec con1 ping 10.0.0.20
 * Now can't use static routes, as nodes could be on different subnets. Options:
     * Update routes on all routers in between (which can he done if you have control over the routers).
     * If running on cloud, then they might provide an option to add routes (node-\>pod-subnet mappings) into your virtual network. For example, AWS (and Oracle cloud) both allow this.
-    * Another way us to use overlay network.
-* Define an overlay network. A system such that processes can comunicate even though the routers in between don't know the where the processes actaully live.
+    * Another way us to use overlay network, which is what we will describe here.
 * Introduce *tun/tap* devices. A network interface backed by a user-space process.
     * *tun* device accepts/outputs raw IP packets.  
     * *tap* device accepts/outputs raw ethernet packets.  
@@ -253,7 +256,6 @@ Meanwhile, on node 10.0.0.20:
 ## Slide: Recap
 
 * Describe the stages we have covered.
-
 * Describe the key takeaways (concepts and tools).
 
 ## Slide: Putting it all together
