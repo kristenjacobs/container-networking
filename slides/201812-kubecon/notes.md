@@ -76,11 +76,8 @@
 
 ```
 ./setup.sh
-# Lists the network namespaces
 ip netns
-# The interfaces inside the network namespace
 sudo ip netns exec con ip a
-# Pings the network namespace from the node
 ping 176.16.0.1
 ```
 
@@ -115,11 +112,8 @@ ping 176.16.0.1
 
 ```
 ./setup.sh
-# The interfaces on the node
 ip a
-# Pings between the network namespaces
 sudo ip netns exec con1 ping 172.16.0.3
-# Pings the node from the network namespace
 sudo ip netns exec con1 ping 10.0.0.10
 ```
 
@@ -153,14 +147,16 @@ On each node, run:
 ./setup.sh
 ```
 
+And again on each node, run:
+
+```
+ip r
+```
+
 From 10.0.0.10:
 
 ```
-# The routes on the node
-ip r
-# Pings from a network namespaces on one node to one on the other node
 sudo ip netns exec con1 ping 172.16.1.2
-# Pings from a network namespaces on one node to the other node
 sudo ip netns exec con1 ping 10.0.0.20
 ```
 
@@ -222,9 +218,7 @@ On each node, run:
 From 10.0.0.10:
 
 ```
-# Ping from a network namespaces on one node to one on the other node
 sudo ip netns exec con1 ping 172.16.1.2
-# Ping from a network namespaces on one node to the other node
 sudo ip netns exec con1 ping 10.0.0.20
 ```
 
@@ -238,18 +232,14 @@ To see the encapsulation process more clearly:
 On node 10.0.0.10:
 
 ```
-# Pings from a local network namespace to a remote network namespace
 ./send.sh
 ```
 
 Meanwhile, on node 10.0.0.20:
 
 ```
-# Captures traffic on interface enp0s8
 ./capture.sh enp0s8
-# Captures traffic on interface tun0
 ./capture.sh tun0
-# Captures traffic on interface br0
 ./capture.sh br0
 ```
 
