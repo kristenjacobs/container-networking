@@ -47,10 +47,10 @@ echo "Setting the default route in the network namespaces"
 sudo ip netns exec $CON1 ip route add default via $BRIDGE_IP dev veth11
 sudo ip netns exec $CON2 ip route add default via $BRIDGE_IP dev veth21
 
-# ------------------- Step 4 Specific Setup --------------------- #
-
 echo "Enables IP forwarding on the node"
 sudo sysctl -w net.ipv4.ip_forward=1
+
+# ------------------- Step 4 Specific Setup --------------------- #
 
 echo "Starts the UDP tunnel in the background"
 sudo socat TUN:$TUNNEL_IP/16,iff-up UDP:$TO_NODE_IP:9000,bind=$NODE_IP:9000 &
