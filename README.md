@@ -10,6 +10,54 @@ Examples of creating a network of linux containers (network namespaces).
 
 [4 - Overlay Network](4-overlay-network/README.md)
 
+## Installation
+
+### OSX
+
+```
+brew install virtualbox
+brew install vagrant
+```
+
+### Linux
+
+```
+sudo apt-get install virtualbox
+sudo apt-get install vagrant
+```
+
+## Setup
+
+To bring up the VMs for all examples:
+
+```
+make vagrant-up
+```
+
+## Status
+
+To check the status of the VMs for all examples:
+
+```
+make vagrant-status
+```
+
+## Test
+
+To run the tests for all examples:
+
+```
+make test
+```
+
+## Teardown
+
+To destroy the VMs for all of the examples:
+
+```
+make vagrant-destroy
+```
+
 ## Talks: 'Container Networking From Scratch' 
 
 * 2018-06 - Bristol Cloud Native: https://www.youtube.com/watch?v=mICllKv8JM4&t=1712s 
