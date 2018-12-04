@@ -15,8 +15,9 @@ Examples of creating a network of linux containers (network namespaces).
 ### OSX
 
 ```
-brew install virtualbox
-brew install vagrant
+brew cask install virtualbox
+brew cask install vagrant
+vagrant plugin install vagrant-vbguest
 ```
 
 ### Linux
@@ -24,6 +25,7 @@ brew install vagrant
 ```
 sudo apt-get install virtualbox
 sudo apt-get install vagrant
+vagrant plugin install vagrant-vbguest
 ```
 
 ## Setup
